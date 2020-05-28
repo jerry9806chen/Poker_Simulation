@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Compile Test",
+      "setup": "",
+      "run": "g++ -std=c++11 main.cpp CardPile.cpp Card.cpp Deck.cpp Hand.cpp Game.cpp -o poker",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 1,
+      "points": null
+    }
+  ]
+}
