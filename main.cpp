@@ -7,8 +7,11 @@
 //
 
 #include <iostream>
+#include <vector>
+//#include "Player.hpp"
 #include "Game.hpp"
 #include "Testing.hpp"
+#include "Player.cpp"
 
 std::ostream& getOutput() {return std::cout;}
 
@@ -23,7 +26,9 @@ int main(int argc, const char * argv[]) {
   ECE17::Game theGame(1000.00, 5, 5.00);
 
   //STUDENT: Add 2 or more players before running game...
-  
+  std::vector<ECE17::Player> players;
+  /*theGame.addPlayer();
+  theGame.addPlayer();*/
   if(theGame.willRun()) {
     theGame.didRun(theGame.run(1.0, theOutput), theOutput);
   }

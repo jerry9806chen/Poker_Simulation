@@ -11,24 +11,35 @@
 
 #include <stdio.h>
 #include <map>
+#include <vector>
 #include "Player.hpp"
 #include "Deck.hpp"
 #include "Hand.hpp"
+#include "Player.cpp"
 
 namespace ECE17 {
     
-  //student -- declare the Game class here...
-  class Game {
-  public:
-    Game(float aStartingBalance, size_t aCardCount=5, float aMinimumBet=5.0);
-
-    bool    addPlayer(IPlayer &aPlayer);
-
-    bool    willRun();  // Return true if the game is properly configured and is ready to run
-    bool    run(float anAnte, std::ostream &anOutput); // run the game, returns true if it was run
-    bool    didRun(bool aRunStatus, std::ostream &anOutput); // if aRunStatus is true, prints winner information
+    //student -- declare the Game class here...
+    class Game {
+    public:
         
-  };
+
+        Game(float aStartingBalance, size_t aCardCount=5, float aMinimumBet=5.0);
+
+        bool    addPlayer(Player &aPlayer);
+
+        bool    willRun();  // Return true if the game is properly configured and is ready to run
+        bool    run(float anAnte, std::ostream &anOutput); // run the game, returns true if it was run
+        bool    didRun(bool aRunStatus, std::ostream &anOutput); // if aRunStatus is true, prints winner information
+        
+    private:
+        bool played;
+        std::vector<IPlayer> players;
+        std::vector<float> player_balances;
+        int winnerIndex;
+        float startingBalance, minBet;
+        size_t cardCount;
+    };
 
 }
 

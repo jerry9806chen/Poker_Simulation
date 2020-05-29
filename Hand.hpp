@@ -14,7 +14,7 @@
 #include "CardPile.hpp"
 
 namespace ECE17 {
-
+   
   //you don't have to use these, but they might come in handy...
   enum class HandTypes {
     unknown=0, high_card=1, one_pair=2, two_pair=3, three_kind=4, straight=5,
