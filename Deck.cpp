@@ -3,6 +3,7 @@
 //
 
 #include "Deck.hpp"
+#include <time.h>
 
 namespace ECE17 {
 
