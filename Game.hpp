@@ -15,7 +15,7 @@
 #include "Player.hpp"
 #include "Deck.hpp"
 #include "Hand.hpp"
-#include "Player.cpp"
+//#include "Player.cpp"
 
 namespace ECE17 {
     
@@ -31,10 +31,11 @@ namespace ECE17 {
         bool    willRun();  // Return true if the game is properly configured and is ready to run
         bool    run(float anAnte, std::ostream &anOutput); // run the game, returns true if it was run
         bool    didRun(bool aRunStatus, std::ostream &anOutput); // if aRunStatus is true, prints winner information
-        
+        std::string handName(enum HandTypes type);
+
     private:
         bool played;
-        std::vector<IPlayer> players;
+        std::vector<Player> players;
         std::vector<float> player_balances;
         int winnerIndex;
         float startingBalance, minBet;

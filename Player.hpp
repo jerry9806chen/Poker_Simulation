@@ -30,6 +30,7 @@ namespace ECE17 {
   };
 
   class Player: public IPlayer {
+  public:
       /*std::string& IPlayer::getName();
       void IPlayer::willStartRound(size_t aRoundNum);
       bool isFolding(ECE17::Hand& aHand, size_t aPlayerCount, float aBalance);
@@ -39,7 +40,7 @@ namespace ECE17 {
 	  Player(std::string aName = "noName") : name(aName) {
 		  firstBetPlayed = false;
 		  folded = false;
-		  srand((unsigned)time(NULL));
+		  srand(time(NULL));
 	  }
 
 	  // Copy constructor
@@ -47,16 +48,16 @@ namespace ECE17 {
 		  name = aPlayer.name;
 		  firstBetPlayed = false;
 		  folded = false;
-		  srand((unsigned)time(NULL));
+		  srand(time(NULL));
 	  }
 
 	  // Copy constructor
-	  Player& operator=(const Player& aPlayer) {
+	  /*Player& operator=(const Player& aPlayer) {
 		  name = aPlayer.name;
 		  firstBetPlayed = false;
 		  folded = false;
 		  std::srand(static_cast<unsigned int>(time(nullptr)));
-	  }
+	  }*/
 
 	  /*// Destructor
 	  ~Player() {}*/
@@ -175,6 +176,8 @@ namespace ECE17 {
 		  // Don't bet if the hand is unknown.
 		  if (handQual == HandTypes::unknown)
 			  return 0;
+
+		  return 0;
 	  }
 
 	  // Discard unwanted cards from the hand.

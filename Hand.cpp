@@ -54,17 +54,20 @@ namespace ECE17 {
 		std::list<Card>::iterator it = cards.begin();
 		std::string face, suit;
 
-		for (int facenum = 0; facenum < faces; facenum++)
+		for (int facenum = 0; facenum < faces; facenum++) {
 			facecount[facenum] = 0;
+		}
 
-		for (int suitnum = 0; suitnum < suits; suitnum++)
+		for (int suitnum = 0; suitnum < suits; suitnum++) {
 			suitcount[suitnum] = 0;
+		}
 
 		// Count the number of cards total and number of cards for each face and suit.
 		while (it != cards.end()) {
 			facecount[(static_cast<int>((*it).GetFace()))]++;
 			suitcount[(static_cast<int>((*it).GetSuit()))]++;
 			//cardcount++;
+			it++;
 		}
 
 		// Make sure the hand is valid. If it is not valid, return the hand type as unknown.
