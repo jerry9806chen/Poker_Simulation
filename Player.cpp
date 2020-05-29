@@ -5,7 +5,7 @@
 
 using namespace std;
 namespace ECE17 {
-	class Player : public IPlayer {
+/*	class Player {
 	public:
 		// Default constructor
 		Player(std::string aName = "noName") : name(aName) {
@@ -434,7 +434,7 @@ namespace ECE17 {
 				}
 				/*if (aHand.size() < 5) {
 
-				}*/
+				}
 				return 1;
 			}
 		}
@@ -444,5 +444,5 @@ namespace ECE17 {
 		//float balance;
 		size_t roundnum;
 		bool firstBetPlayed, folded;
-	};
+	};*/
 }
