@@ -31,7 +31,7 @@ namespace ECE17 {
         bool    willRun();  // Return true if the game is properly configured and is ready to run
         bool    run(float anAnte, std::ostream &anOutput); // run the game, returns true if it was run
         bool    didRun(bool aRunStatus, std::ostream &anOutput); // if aRunStatus is true, prints winner information
-        std::string handName(enum HandTypes type);
+        std::string handName(enum HandTypes type); // For output purposes, this is to help Game determine each player's hand in string form.
 
     private:
         bool played;

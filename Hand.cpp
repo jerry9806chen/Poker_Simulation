@@ -22,7 +22,7 @@ namespace ECE17 {
 		this->cards = aHand.cards;
 	}*/
 
-	// Return if the hand is empty.
+	// Empty the hand. Return if the hand is already empty.
 	bool Hand::empty() {
 		if (this->isEmpty())
 			return false;
@@ -31,7 +31,8 @@ namespace ECE17 {
 		return true;
 	}
 
-	// Remove a card from the hand.
+	// Remove a card from the hand. Return true if it was in the hand.
+	// Return false if it was not in the hand.
 	bool Hand::discard(const Card& aCard) {
 		std::list<Card>::iterator it = cards.begin();
 		while (it != cards.end()) {
@@ -49,15 +50,14 @@ namespace ECE17 {
 		const int suits = 4 + 1;
 		int facecount[faces];
 		int suitcount[suits];
-		//int cardcount = 0;
 		bool isFlush, isStraight;
 		std::list<Card>::iterator it = cards.begin();
 		std::string face, suit;
 
+		// Setup the facecount and suitcount arrays for tracking each card count.
 		for (int facenum = 0; facenum < faces; facenum++) {
 			facecount[facenum] = 0;
 		}
-
 		for (int suitnum = 0; suitnum < suits; suitnum++) {
 			suitcount[suitnum] = 0;
 		}
@@ -66,11 +66,11 @@ namespace ECE17 {
 		while (it != cards.end()) {
 			facecount[(static_cast<int>((*it).GetFace()))]++;
 			suitcount[(static_cast<int>((*it).GetSuit()))]++;
-			//cardcount++;
 			it++;
 		}
 
 		// Make sure the hand is valid. If it is not valid, return the hand type as unknown.
+		// It is invalid if the card count is not 5, or there are unknown cards by their suit or face.
 		if (count() != 5 || suitcount[4] > 0 || facecount[0] > 0 || facecount[14] > 0)
 			return HandTypes::unknown;
 

@@ -82,10 +82,12 @@ namespace ECE17 {
             int playernum = 0;
             while (it1 != game_participant_nums.end()) {
                 if (player_balances[*it1] < minBet) {
+                    // Player cannot pay the ante, so they will be removed from the game.
                     game_participant_nums.erase(it1);
                     it1 = game_participant_nums.begin() + playernum;
                 }
                 else {
+                    // Player can pay the ante, so they remain in the game.
                     playernum++;
                     it1++;
                 }
@@ -118,19 +120,21 @@ namespace ECE17 {
             // For each participating player this round, each player is given a hand
             // and has the ante deducted from their balance.
             while (it1 != round_participant_nums.end()) {
-                //anOutput << "dork1" << std::endl;
                 players[*it1].willStartRound(roundNum);
                 std::vector<Card> cardList;
                 cardList.clear();
 
+                // Build a hand from cards in the deck.
                 for (int cardnum = 0; cardnum < cardCount; cardnum++) {
                     cardList.push_back(startingDeck.getCard());
                 }
                 
+                // Give the player the just-built hand and deduct the ante from the player's balance.
                 Hand newHand(cardList);
                 round_hands.push_back(newHand);
                 player_balances[*it1] -= minBet;
 
+                // State the updated player balance.
                 anOutput << players[*it1].getName() << "'s balance is " << player_balances[*it1] << std::endl;
 
                 pot += minBet;
@@ -150,37 +154,32 @@ namespace ECE17 {
             }
 
             // Check which players wish to fold before the first bet.
-            //int aCount = game_participants.size();
             it1 = round_participant_nums.begin();
             it2 = round_hands.begin();
             playernum = 0;
             while (it1 != round_participant_nums.end() && round_participant_nums.size() > 1) {
-                //anOutput << "dork2" << std::endl;
+                // State each player and their hand.
                 anOutput << "\n" << players[*it1].getName() << std::endl;
                 (*it2).printPile();
                 anOutput << handName((*it2).determineRank()) << std::endl;
+                
                 if (players[*it1].isFolding(*it2, round_participant_nums.size(), player_balances[*it1])) {
-                    //std::cout << "dork21" << std::endl;
+                    // If the player folds, state such, remove them from the game, and move onto the next player.
                     anOutput << players[*it1].getName() << " folds." << std::endl;
 
                     round_participant_nums.erase(it1);
                     round_hands.erase(it2);
-                    //anOutput << "dork22" << std::endl;
                     it1 = round_participant_nums.begin() + playernum;
                     it2 = round_hands.begin() + playernum;
                 }
                 else {
+                    // If the player stays, state such and move onto the next player.
                     anOutput << players[*it1].getName() << " stays." << std::endl;
 
                     it1++;
                     it2++;
                     playernum++;
                 }
-                /*if (it1 != round_participant_nums.end()) {
-                    anOutput << players[*it1].getName() << std::endl;
-                    (*it2).printPile();
-                }
-                anOutput << "dork23" << std::endl;*/
             }
 
             // If only one player has withheld from folding, he/she wins the pot by default.
@@ -196,13 +195,19 @@ namespace ECE17 {
             it1 = round_participant_nums.begin();
             it2 = round_hands.begin();
             while (it1 != round_participant_nums.end()) {
-                // anOutput << "dork3" << std::endl;
+                // Get the player's bet.
                 float bet = players[*it1].placeBet(*it2, round_participant_nums.size(), player_balances[*it1]);
                 anOutput << "\n" << players[*it1].getName() << " bets " << bet << std::endl;
+
+                // Add the bet to the pot.
                 pot += bet;
                 anOutput << "Pot is now " << pot << std::endl;
+
+                // Remove the bet from the player's balance.
                 player_balances[*it1] -= bet;
                 anOutput << players[*it1].getName() << "'s balance is now " << player_balances[*it1] << std::endl;
+
+                // And move onto the next player.
                 it1++;
                 it2++;
             }
@@ -212,11 +217,15 @@ namespace ECE17 {
             it1 = round_participant_nums.begin();
             it2 = round_hands.begin();
             while (it1 != round_participant_nums.end()) {
-                //anOutput << "dork4" << std::endl;
+                // Give the players a chance to discard unwanted cards.
                 players[*it1].discardUnwanted(*it2);
+
                 while ((*it2).count() < cardCount) {
+                    // If any cards have been discarded, replace them.
                     (*it2).addCard(startingDeck.getCard());
                 }
+
+                // State the player's current hand, regardless of discarding.
                 anOutput << players[*it1].getName() << "'s hand is now ";
                 (*it2).printPile();
                 it1++;
@@ -229,32 +238,28 @@ namespace ECE17 {
             it2 = round_hands.begin();
             playernum = 0;
             while (it1 != round_participant_nums.end() && round_participant_nums.size() > 1) {
-                //anOutput << "dork5" << std::endl;
-                anOutput << players[*it1].getName() << std::endl;
+                // State each player and their hand.
+                anOutput << "\n" << players[*it1].getName() << std::endl;
                 (*it2).printPile();
                 anOutput << handName((*it2).determineRank()) << std::endl;
+
                 if (players[*it1].isFolding(*it2, round_participant_nums.size(), player_balances[*it1])) {
-                    //anOutput << "dork51" << std::endl;
+                    // If the player folds, state such, remove them from the game, and move onto the next player.
                     anOutput << players[*it1].getName() << " folds." << std::endl;
 
                     round_participant_nums.erase(it1);
                     round_hands.erase(it2);
-                    //anOutput << "dork52" << std::endl;
                     it1 = round_participant_nums.begin() + playernum;
                     it2 = round_hands.begin() + playernum;
                 }
                 else {
+                    // If the player stays, state such and move onto the next player.
                     anOutput << players[*it1].getName() << " stays." << std::endl;
 
                     it1++;
                     it2++;
                     playernum++;
                 }
-                /*if (it1 != round_participant_nums.end()) {
-                    anOutput << players[*it1].getName() << std::endl;
-                    (*it2).printPile();
-                }
-                anOutput << "dork53" << std::endl;*/
             }
             anOutput << std::endl;
 
@@ -271,13 +276,19 @@ namespace ECE17 {
             it1 = round_participant_nums.begin();
             it2 = round_hands.begin();
             while (it1 != round_participant_nums.end()) {
-                // anOutput << "dork6" << std::endl;
+                // Get the player's bet.
                 float bet = players[*it1].placeBet(*it2, round_participant_nums.size(), player_balances[*it1]);
-                anOutput << players[*it1].getName() << " bets " << bet << std::endl;
+                anOutput << "\n" << players[*it1].getName() << " bets " << bet << std::endl;
+
+                // Add the bet to the pot.
                 pot += bet;
                 anOutput << "Pot is now " << pot << std::endl;
+
+                // Remove the bet from the player's balance.
                 player_balances[*it1] -= bet;
                 anOutput << players[*it1].getName() << "'s balance is now " << player_balances[*it1] << std::endl;
+
+                // And move onto the next player.
                 it1++;
                 it2++;
             }
@@ -312,16 +323,19 @@ namespace ECE17 {
   
     bool Game::didRun(bool aRunStatus, std::ostream &anOutput) {
         //Determine if the game ran and finished, and then announce the winning player here and how much they won
-        if (played) {
-            anOutput << "Game has been won! Player number " << winnerIndex + 1 << " named ";
-            anOutput << players[winnerIndex].getName() << " has won! Congratulations!" << std::endl;
-        }
-        else {
-            anOutput << "Game has not been played." << std::endl;
+        if (aRunStatus) {
+            if (played) {
+                anOutput << "Game has been won! Player number " << winnerIndex + 1 << " named ";
+                anOutput << players[winnerIndex].getName() << " has won! Congratulations!" << std::endl;
+            }
+            else {
+                anOutput << "Game has not been played." << std::endl;
+            }
         }
         return played;
     }
 
+    // For output purposes, this is to help Game determine each player's hand in string form.
     std::string Game::handName(enum HandTypes type) {
         if (type == HandTypes::royal_flush)
             return "royal flush";
