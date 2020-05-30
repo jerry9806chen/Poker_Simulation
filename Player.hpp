@@ -31,11 +31,6 @@ namespace ECE17 {
 
   class Player: public IPlayer {
   public:
-      /*std::string& IPlayer::getName();
-      void IPlayer::willStartRound(size_t aRoundNum);
-      bool isFolding(ECE17::Hand& aHand, size_t aPlayerCount, float aBalance);
-      float placeBet(ECE17::Hand& aHand, size_t aPlayerCount, float aMaxBet);
-      size_t discardUnwanted(ECE17::Hand& aHand);*/
 	  // Default constructor
 	  Player(std::string aName = "noName") : name(aName) {
 		  firstBetPlayed = false;
@@ -472,7 +467,6 @@ namespace ECE17 {
 
   private:
 	  std::string name;
-	  //float balance;
 	  size_t roundnum;
 	  bool firstBetPlayed, folded;
   };
