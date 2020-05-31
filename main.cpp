@@ -36,21 +36,18 @@ int main(int argc, const char * argv[]) {
   players.push_back(ECE17::Player("Stephanie"));
   players.push_back(ECE17::Player("William"));
 
+  // Randomly select the number of players participating in the game.
   const int min_players = 3;
-  int num_of_players = min_players + static_cast<int>((players.size()-min_players) * (float)rand() / RAND_MAX);
+  int num_of_players = min_players + static_cast<int>((players.size() - min_players + 1) * (float)rand() / RAND_MAX);
   
+  // Randomly select which players will be participating in the game.
   for (int playernum = 0; playernum < num_of_players; playernum++) {
       int playerIndex = static_cast<int>(players.size() * (float)rand() / RAND_MAX);
       theGame.addPlayer(players[playerIndex]);
       players.erase(players.begin() + playerIndex);
   }
-  /*theGame.addPlayer(ECE17::Player("Alice"));
-  theGame.addPlayer(ECE17::Player("Bob"));
-  theGame.addPlayer(ECE17::Player("Jack"));
-  theGame.addPlayer(ECE17::Player("Joe"));
-  theGame.addPlayer(ECE17::Player("Stephanie"));
-  theGame.addPlayer(ECE17::Player("William"));*/
 
+  // Run the game.
   if(theGame.willRun()) {
     theGame.didRun(theGame.run(1.0, theOutput), theOutput);
     std::cout << "The game ran." << std::endl;

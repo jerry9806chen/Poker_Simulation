@@ -22,8 +22,8 @@ namespace ECE17 {
     }
 
     // Add player aPlayer to the game.
-    bool Game::addPlayer(ECE17::Player &aPlayer) {
-        players.push_back(aPlayer);
+    bool Game::addPlayer(ECE17::IPlayer &aPlayer) {
+        players.push_back(static_cast<ECE17::Player&>(aPlayer));
         player_balances.push_back(startingBalance);
         return true;
     }
@@ -296,23 +296,45 @@ namespace ECE17 {
 
             // Determine the winner of the round and hand him the pot.
             enum HandTypes winningHand = HandTypes::unknown;
-            int winningIndex = 0;
+            std::vector<int> winningIndices;
+            //int winningIndex = 0;
             for (int participant = 0; participant < round_participant_nums.size(); participant++) {
                 anOutput << players[round_participant_nums[participant]].getName() << "'s hand is a " << handName(round_hands[participant].determineRank()) << std::endl;
                 if (round_hands[participant].determineRank() > winningHand) {
-                    winningIndex = round_participant_nums[participant];
+                    winningIndices.clear();
+                    winningIndices.push_back(round_participant_nums[participant]);
+                    //winningIndex = round_participant_nums[participant];
                     winningHand = round_hands[participant].determineRank();
                 }
+                else if (round_hands[participant].determineRank() == winningHand) {
+                    winningIndices.push_back(round_participant_nums[participant]);
+                }
             }
-            anOutput << players[winningIndex].getName() << " wins the pot with a " << handName(winningHand) << std::endl;
-
-            player_balances[winningIndex] += pot;
+            if (winningIndices.size() == 1)
+                anOutput << players[winningIndices[0]].getName() << " wins the pot with a " << handName(winningHand) << std::endl;
+            else if (winningIndices.size() == 2) {
+                anOutput << players[winningIndices[0]].getName() << " and " << players[winningIndices[1]].getName() << " split the pot with " << handName(winningHand) << "'s "<< std::endl;
+            }
+            else {
+                for (int i = 0; i < winningIndices.size(); i++) {
+                    if (i < winningIndices.size() - 1)
+                        anOutput << players[winningIndices[i]].getName() << ", ";
+                    else
+                        anOutput << "and " << players[winningIndices[i]].getName() << " split the pot with " << handName(winningHand) << "'s " << std::endl;
+                }
+            }
+            for (int i = 0; i < winningIndices.size(); i++) {
+                player_balances[winningIndices[i]] += pot / winningIndices.size();
+                anOutput << players[winningIndices[i]].getName() << "'s balance is now " << player_balances[winningIndices[i]] << std::endl;
+            }
+            //player_balances[winningIndex] += pot;
             pot = 0;
 
-            anOutput << players[winningIndex].getName() << "'s balance is now " << player_balances[winningIndex] << std::endl;
+            //anOutput << players[winningIndex].getName() << "'s balance is now " << player_balances[winningIndex] << std::endl;
 
             round_participant_nums.clear();
             round_hands.clear();
+            winningIndices.clear();
 
             roundNum++;
         }
@@ -360,6 +382,38 @@ namespace ECE17 {
 
         return "unknown";
     }
+
+    /*int Game::betterHand(Hand hand1, Hand hand2) {
+        if (hand2.determineRank() > hand1.determineRank())
+            return 2;
+        else if (hand2.determineRank() < hand1.determineRank())
+            return 1;
+        else {
+            const int faces = 13 + 2;
+            const int suits = 4 + 1;
+            int facecount1[faces];
+            int suitcount1[suits];
+            int facecount2[faces];
+            int suitcount2[suits];
+            bool isFlush, isStraight;
+            std::list<Card>::iterator it = cards.begin();
+            std::string face, suit;
+
+            // Setup the facecount and suitcount arrays for tracking each card count.
+            for (int facenum = 0; facenum < faces; facenum++) {
+                facecount1[facenum] = 0;
+                facecount2[facenum] = 0;
+            }
+            for (int suitnum = 0; suitnum < suits; suitnum++) {
+                suitcount1[suitnum] = 0;
+                suitcount2[suitnum] = 0;
+            }
+
+            if (hand1.determineRank() == HandTypes::high_card) {
+
+            }
+        }
+    }*/
 }
 
 
