@@ -32,7 +32,7 @@ namespace ECE17 {
         bool    run(float anAnte, std::ostream &anOutput); // run the game, returns true if it was run
         bool    didRun(bool aRunStatus, std::ostream &anOutput); // if aRunStatus is true, prints winner information
         std::string handName(enum HandTypes type); // For output purposes, this is to help Game determine each player's hand in string form.
-        //int     betterHand(Hand hand1, Hand hand2); // Determine which of the two hands is the better hand. Best used for tiebreakers.
+        int     betterHand(Hand hand1, Hand hand2); // Determine which of the two hands is the better hand. Best used for tiebreakers.
 
     private:
         bool played;

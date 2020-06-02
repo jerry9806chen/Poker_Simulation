@@ -24,8 +24,8 @@ namespace ECE17 {
 
     virtual std::string& getName()=0; //get the player name
     virtual void         willStartRound(size_t aRoundNum)=0; //tell player that round N is starting...`
-    virtual bool         isFolding(ECE17::Hand &aHand, size_t aPlayerCount, float aBalance)=0;
-    virtual float        placeBet(ECE17::Hand &aHand, size_t aPlayerCount, float aMaxBet)=0;
+    virtual bool         isFolding(const ECE17::Hand &aHand, size_t aPlayerCount, float aBalance)=0;
+    virtual float        placeBet(const ECE17::Hand &aHand, size_t aPlayerCount, float aMaxBet)=0;
     virtual size_t       discardUnwanted(ECE17::Hand &aHand)=0;
   };
 
@@ -63,16 +63,16 @@ namespace ECE17 {
 	  }
 
 	  // Reset player state at the start of a new round.
-	  void willStartRound(size_t aRoundNum) {
+	  void IPlayer::willStartRound(size_t aRoundNum) {
 		  roundnum = aRoundNum;
 		  folded = false;
 		  firstBetPlayed = false;
 	  }
 
 	  // Return if the player will fold.
-	  bool isFolding(ECE17::Hand& aHand, size_t aPlayerCount, float aBalance) {
+	  bool IPlayer::isFolding(const ECE17::Hand& aHand, size_t aPlayerCount, float aBalance) {
 		  // STUDENT: Implement the method!!!
-		  enum HandTypes handQual = aHand.determineRank();
+		  enum HandTypes handQual = (const_cast<Hand&>(aHand)).determineRank();
 		  float randnum = (float)rand() / RAND_MAX;
 		  // No folding if only one player in the game.
 		  if (aPlayerCount < 2)
@@ -132,8 +132,8 @@ namespace ECE17 {
 	  }
 
 	  // Place a bet.
-	  float placeBet(ECE17::Hand& aHand, size_t aPlayerCount, float aMaxBet) {
-		  enum HandTypes handQual = aHand.determineRank();
+	  float IPlayer::placeBet(const ECE17::Hand& aHand, size_t aPlayerCount, float aMaxBet) {
+		  enum HandTypes handQual = (const_cast<Hand&>(aHand)).determineRank();
 		  double randnum = (double)rand() / RAND_MAX;
 		  double bluffcalc = (double)rand() / RAND_MAX;
 		  double bluffthresh = 0.2;
@@ -176,7 +176,7 @@ namespace ECE17 {
 	  }
 
 	  // Discard unwanted cards from the hand.
-	  size_t discardUnwanted(ECE17::Hand& aHand) {
+	  size_t IPlayer::discardUnwanted(ECE17::Hand& aHand) {
 		  enum HandTypes handrank = aHand.determineRank();
 		  float randnum = (float)rand() / RAND_MAX;
 		  // There is nothing to discard if there are no cards.
