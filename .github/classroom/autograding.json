@@ -3,7 +3,7 @@
     {
       "name": "Compile Test",
       "setup": "",
-      "run": "g++ -std=c++11 main.cpp CardPile.cpp Card.cpp Deck.cpp Hand.cpp Game.cpp -o poker",
+      "run": "g++ -std=c++11 main.cpp CardPile.cpp Card.cpp Deck.cpp Hand.cpp Game.cpp Player.cpp -o poker",
       "input": "",
       "output": "",
       "comparison": "included",
