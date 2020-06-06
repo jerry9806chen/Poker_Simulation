@@ -63,14 +63,14 @@ namespace ECE17 {
 	  }
 
 	  // Reset player state at the start of a new round.
-	  void IPlayer::willStartRound(size_t aRoundNum) {
+	  void willStartRound(size_t aRoundNum) {
 		  roundnum = aRoundNum;
 		  folded = false;
 		  firstBetPlayed = false;
 	  }
 
 	  // Return if the player will fold.
-	  bool IPlayer::isFolding(const ECE17::Hand& aHand, size_t aPlayerCount, float aBalance) {
+	  bool isFolding(const ECE17::Hand& aHand, size_t aPlayerCount, float aBalance) {
 		  // STUDENT: Implement the method!!!
 		  enum HandTypes handQual = (const_cast<Hand&>(aHand)).determineRank();
 		  float randnum = (float)rand() / RAND_MAX;
@@ -132,7 +132,7 @@ namespace ECE17 {
 	  }
 
 	  // Place a bet.
-	  float IPlayer::placeBet(const ECE17::Hand& aHand, size_t aPlayerCount, float aMaxBet) {
+	  float placeBet(const ECE17::Hand& aHand, size_t aPlayerCount, float aMaxBet) {
 		  enum HandTypes handQual = (const_cast<Hand&>(aHand)).determineRank();
 		  double randnum = (double)rand() / RAND_MAX;
 		  double bluffcalc = (double)rand() / RAND_MAX;
@@ -176,7 +176,7 @@ namespace ECE17 {
 	  }
 
 	  // Discard unwanted cards from the hand.
-	  size_t IPlayer::discardUnwanted(ECE17::Hand& aHand) {
+	  size_t discardUnwanted(ECE17::Hand& aHand) {
 		  enum HandTypes handrank = aHand.determineRank();
 		  float randnum = (float)rand() / RAND_MAX;
 		  // There is nothing to discard if there are no cards.
